@@ -71,13 +71,15 @@ Internally, the plugin works by splitting the data into different series, one fo
 				var currentPoint = this._originalPoints[i];
 				if (evaluate(currentPoint[1],threshold)) {
 					if (i > 0
-							&& (this._data.length == 0 || this._data[count - 1] == null)) {
+							&& (this._data.length == 0 || this._data[count - 1] == null) 
+							&& this._originalPoints[i - 1][1]!=null) {
 						this._data[count++] = this._getPointOnThreshold(threshold,this._originalPoints[i - 1], currentPoint);
 					}
 					this._data[count++] = currentPoint;
 				} else {
 					if (this._data.length > 0 && this._data[count - 1] != null) {
-						this._data[count++] = this._getPointOnThreshold(threshold,this._originalPoints[i - 1], currentPoint);
+						if(this._originalPoints.length>i+1 && this._originalPoints[i+1][1] != null) 
+							this._data[count++] = this._getPointOnThreshold(threshold,this._originalPoints[i - 1], currentPoint);
 						this._data[count++] = null;
 						this._data[count++] = null;
 					}
